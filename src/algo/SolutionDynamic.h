@@ -62,6 +62,22 @@ class SolutionDynamic : public QObject
     int uniquePaths(int m, int n);
     int uniquePaths2(int m, int n);
 
+    /*
+    最小路径和
+    给定一个包含非负整数的 m x n 网格 grid ，请找出一条从左上角到右下角的路径，使得路径上的数字总和为最小。
+    说明：每次只能向下或者向右移动一步。
+    */
+    int minPathSum(vector<vector<int>> &grid);
+
+    /*
+    不同路径 II
+    给定一个 m x n 的整数数组 grid。一个机器人初始位于 左上角（即 grid[0][0]）。
+    机器人尝试移动到 右下角（即 grid[m - 1][n - 1]）。机器人每次只能向下或者向右移动一步。
+    网格中的障碍物和空位置分别用 1 和 0 来表示。机器人的移动路径中不能包含 任何 有障碍物的方格。
+    返回机器人能够到达右下角的不同路径数量。
+    */
+    int uniquePathsWithObstacles(vector<vector<int>> &obstacleGrid);
+
   private:
     std::map<int, int> iiMap;
     vector<vector<int>> iiVec;

@@ -119,6 +119,7 @@ int SolutionDynamic::rob(vector<int> &nums)
 
 int SolutionDynamic::deleteAndEarn(vector<int> &nums)
 {
+    // 这里的状态转移方程为dp[i] = max(dp[i - 2] + record[i], dp[i - 1])
     int maxNum = 0;
     for (auto num : nums)
     {
@@ -189,4 +190,112 @@ int SolutionDynamic::uniquePaths2(int m, int n)
         }
     }
     return dp[0][0];
+}
+
+int SolutionDynamic::minPathSum(vector<vector<int>> &grid)
+{
+    // 先遍历最下边和最右边
+    // 再从右下开始遍历
+    int row = grid.size();
+    int col = grid[0].size();
+    vector<vector<int>> pd = vector<vector<int>>(row, vector<int>(col));
+    for (int i = row - 1; i >= 0; i--)
+    {
+        pd[i][col - 1] = grid[i][col - 1];
+        if (i < row - 1)
+        {
+            pd[i][col - 1] += pd[i + 1][col - 1];
+        }
+    }
+    for (int j = col - 1; j >= 0; j--)
+    {
+        pd[row - 1][j] = grid[row - 1][j];
+        if (j < col - 1)
+        {
+            pd[row - 1][j] += pd[row - 1][j + 1];
+        }
+    }
+    for (int i = row - 2; i >= 0; i--)
+    {
+        for (int j = col - 2; j >= 0; j--)
+        {
+            if (i < 0 || j < 0)
+            {
+                continue;
+            }
+            pd[i][j] = min(pd[i + 1][j], pd[i][j + 1]) + grid[i][j];
+        }
+    }
+    return pd[0][0];
+}
+
+int SolutionDynamic::uniquePathsWithObstacles(vector<vector<int>> &obstacleGrid)
+{
+    // 先遍历最下边和最右边
+    // 再从右下开始遍历
+    int row = obstacleGrid.size();
+    if (row == 0)
+    {
+        return 0;
+    }
+    int col = obstacleGrid[0].size();
+    if (obstacleGrid[row - 1][col - 1] == 1)
+    {
+        return 0;
+    }
+    vector<vector<double>> pd = vector<vector<double>>(row, vector<double>(col));
+    pd[row - 1][col - 1] = 1;
+    for (int i = row - 2; i >= 0; i--)
+    {
+        if (obstacleGrid[i][col - 1] == 0)
+        {
+            pd[i][col - 1] = pd[i + 1][col - 1];
+        }
+        else
+        {
+            pd[i][col - 1] = 0;
+        }
+    }
+    for (int j = col - 2; j >= 0; j--)
+    {
+        if (obstacleGrid[row - 1][j] == 0)
+        {
+            pd[row - 1][j] = pd[row - 1][j + 1];
+        }
+        else
+        {
+            pd[row - 1][j] = 0;
+        }
+    }
+    for (int i = row - 2; i >= 0; i--)
+    {
+        for (int j = col - 2; j >= 0; j--)
+        {
+            if (obstacleGrid[i][j] == 1)
+            {
+                pd[i][j] = 0;
+                continue;
+            }
+            if (pd[i + 1][j] > 0)
+            {
+                if (pd[i][j + 1] > 0)
+                {
+                    pd[i][j] = pd[i + 1][j] + pd[i][j + 1];
+                }
+                else
+                {
+                    pd[i][j] = pd[i + 1][j];
+                }
+            }
+            else if (pd[i][j + 1] > 0)
+            {
+                pd[i][j] = pd[i][j + 1];
+            }
+            else
+            {
+                pd[i][j] = 0;
+            }
+        }
+    }
+    return pd[0][0];
 }

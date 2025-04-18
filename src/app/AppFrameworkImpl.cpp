@@ -55,7 +55,14 @@ void AppFrame::AppFrameworkImpl::runSolution()
     registerPlugin<SolutionDynamic>(std::make_unique<SolutionDynamic>());
     const auto &solution = getPlugin<SolutionDynamic>();
     std::vector<int> starirs{2, 2, 3, 3, 3, 4};
-    int res = solution->uniquePaths2(3, 7);
+    std::vector<std::vector<int>> iiVec;
+    std::vector<int> vec1{1, 3, 1};
+    std::vector<int> vec2{1, 5, 1};
+    std::vector<int> vec3{4, 2, 1};
+    iiVec.push_back(vec1);
+    iiVec.push_back(vec2);
+    iiVec.push_back(vec3);
+    int res = solution->minPathSum(iiVec);
     LogInfo("last res: {}", res);
 }
 
