@@ -91,3 +91,102 @@ int SolutionDynamic::minCostClimbingStairs2(std::vector<int> &cost)
     }
     return dp[dp.size() - 1];
 }
+
+int SolutionDynamic::rob(vector<int> &nums)
+{
+    int n = nums.size();
+    if (n == 0)
+    {
+        return 0;
+    }
+    if (n == 1)
+    {
+        return nums[0];
+    }
+    if (n == 2)
+    {
+        return max(nums[0], nums[1]);
+    }
+    vector<int> dp(n);
+    dp[0] = nums[0];
+    dp[1] = max(nums[0], nums[1]);
+    for (int i = 2; i < n; i++)
+    {
+        dp[i] = max(dp[i - 1], dp[i - 2] + nums[i]);
+    }
+    return dp[n - 1];
+}
+
+int SolutionDynamic::deleteAndEarn(vector<int> &nums)
+{
+    int maxNum = 0;
+    for (auto num : nums)
+    {
+        if (num > maxNum)
+            maxNum = num;
+    }
+    vector<int> record(maxNum + 1);
+    for (auto num : nums)
+    {
+        record[num] += num;
+    }
+    vector<int> dp(maxNum + 1);
+    dp[1] = record[1];
+    for (int i = 2; i < dp.size(); i++)
+    {
+        dp[i] = max(dp[i - 2] + record[i], dp[i - 1]);
+    }
+    return dp[dp.size() - 1];
+}
+
+int SolutionDynamic::uniquePaths(int m, int n)
+{
+    // map记录法
+    if (flag)
+    {
+        flag = false;
+        iiVec = vector<vector<int>>(m + 1, vector<int>(n + 1));
+    }
+    if (m == 0 || n == 0)
+    {
+        return 0;
+    }
+    if (m == 1 || n == 1)
+    {
+        return 1;
+    }
+    if (iiVec[m][n] != 0)
+    {
+        return iiVec[m][n];
+    }
+    int res = uniquePaths(m - 1, n) + uniquePaths(m, n - 1);
+    iiVec[m][n] = res;
+    return res;
+}
+
+int SolutionDynamic::uniquePaths2(int m, int n)
+{
+    // 打表法
+    vector<vector<int>> dp = vector<vector<int>>(m, vector<int>(n));
+    dp[m - 1][n - 1] = 1;
+    for (int i = n - 1; i >= 0; i--)
+    {
+        for (int j = m - 1; j >= 0; j--)
+        {
+            if (i == n - 1 && j == m - 1)
+                continue;
+            if (j + 1 == m)
+            {
+                dp[j][i] = 1;
+                continue;
+            }
+            if (i + 1 == n)
+            {
+                dp[j][i] = 1;
+                continue;
+            }
+            dp[j][i] = dp[j + 1][i] + dp[j][i + 1];
+        }
+    }
+    return dp[0][0];
+}

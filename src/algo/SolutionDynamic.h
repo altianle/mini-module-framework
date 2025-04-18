@@ -2,6 +2,10 @@
 #include "map"
 #include <qobject.h>
 
+using std::max;
+using std::min;
+using std::vector;
+
 class SolutionDynamic : public QObject
 {
     Q_OBJECT
@@ -31,6 +35,35 @@ class SolutionDynamic : public QObject
     int minCostClimbingStairs(std::vector<int> &cost);
     int minCostClimbingStairs2(std::vector<int> &cost);
 
+    /*
+    打家劫舍
+    你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，
+    影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，
+    如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
+    给定一个代表每个房屋存放金额的非负整数数组，计算你 不触动警报装置的情况下 ，一夜之内能够偷窃到的最高金额。
+    */
+    int rob(vector<int> &nums);
+
+    /*
+    删除并获得点数
+    给你一个整数数组 nums ，你可以对它进行一些操作。
+    每次操作中，选择任意一个 nums[i] ，删除它并获得 nums[i] 的点数。
+    之后，你必须删除 所有 等于 nums[i] - 1 和 nums[i] + 1的元素。
+    开始你拥有 0 个点数。返回你能通过这些操作获得的最大点数。
+    */
+    int deleteAndEarn(vector<int> &nums);
+
+    /*
+    不同路径
+    一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为 “Start” ）。
+    机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish” ）。
+    问总共有多少条不同的路径？
+    */
+    int uniquePaths(int m, int n);
+    int uniquePaths2(int m, int n);
+
   private:
     std::map<int, int> iiMap;
+    vector<vector<int>> iiVec;
+    bool flag = true;
 };

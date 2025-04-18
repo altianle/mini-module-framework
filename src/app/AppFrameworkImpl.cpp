@@ -38,7 +38,7 @@ AppFrame::AppFrameworkImpl::~AppFrameworkImpl() noexcept
 int AppFrame::AppFrameworkImpl::run(QQmlApplicationEngine *engine)
 {
     // 软件开启前的初始化 顺序不可修改
-    initAsyncTask();
+    // initAsyncTask();
     initMetaFlash();
     loadConfig(); // 1 加载配置文件
     initFilePath();
@@ -54,8 +54,8 @@ void AppFrame::AppFrameworkImpl::runSolution()
 {
     registerPlugin<SolutionDynamic>(std::make_unique<SolutionDynamic>());
     const auto &solution = getPlugin<SolutionDynamic>();
-    std::vector<int> starirs{10, 15, 20};
-    int res = solution->minCostClimbingStairs(starirs);
+    std::vector<int> starirs{2, 2, 3, 3, 3, 4};
+    int res = solution->uniquePaths2(3, 7);
     LogInfo("last res: {}", res);
 }
 
@@ -119,7 +119,10 @@ void AppFrame::AppFrameworkImpl::quitProgram()
 void AppFrame::AppFrameworkImpl::stop()
 {
     beforClose();
-    taskActuators_->stop();
+    if (taskActuators_ != nullptr)
+    {
+        taskActuators_->stop();
+    }
     mapExpectedFunction_.clear();
 }
 
